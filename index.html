@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,11 +7,30 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <form class="weatherForm">
-      <input type="text" class="cityInput" placeholder="Enter City" />
-      <button type="submit">Get Weather</button>
-    </form>
-    <div class="card" style="display: none"></div>
+    <div class="container">
+      <div class="header">
+        <h1 class="title">Weather App</h1>
+        <button
+          type="button"
+          class="unitToggle"
+          title="Toggle temperature unit"
+        >
+          °C | °F
+        </button>
+      </div>
+      <form class="weatherForm">
+        <input
+          type="text"
+          class="cityInput"
+          placeholder="Enter City"
+          autocomplete="off"
+        />
+        <button type="submit" class="searchBtn">Get Weather</button>
+        <button type="button" class="clearBtn">Clear</button>
+      </form>
+      <div class="spinner" style="display: none"></div>
+      <div class="card" style="display: none"></div>
+    </div>
   </body>
   <script src="index.js"></script>
 </html>
