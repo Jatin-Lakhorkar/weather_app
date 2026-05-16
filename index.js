@@ -79,9 +79,10 @@ function displayWeatherInfo(data) {
     const cityDisplay = document.createElement("h1");
     cityDisplay.textContent = city;
 
-    const weatherEmoji = document.createElement("img");
-    weatherEmoji.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-    weatherEmoji.classList.add("weatherEmoji");
+    // Create Lottie animation container for weather
+    const weatherContainer = document.createElement("div");
+    weatherContainer.classList.add("weatherSvgContainer");
+    weatherContainer.id = "lottie-" + Date.now();
 
     // Convert API temperature from Kelvin to Celsius and Fahrenheit
     const tempC = (temp - 273.15).toFixed(1);
@@ -116,10 +117,13 @@ function displayWeatherInfo(data) {
     weatherInfo.appendChild(pressureBox);
 
     card.appendChild(cityDisplay);
-    card.appendChild(weatherEmoji);
+    card.appendChild(weatherContainer);
     card.appendChild(tempDisplay);
     card.appendChild(descDisplay);
     card.appendChild(weatherInfo);
+
+    // Load Lottie animation based on weather
+    loadWeatherAnimation(weatherContainer.id, main);
 
     // Apply background style based on weather condition
     setCardBackground(main);
@@ -141,6 +145,71 @@ function createInfoBox(label, value) {
     box.appendChild(labelEl);
     box.appendChild(valueEl);
     return box;
+}
+
+function loadWeatherAnimation(containerId, weatherMain) {
+    const container = document.getElementById(containerId);
+
+    // Map weather conditions to emoji
+    const weatherEmoji = {
+        "Clear": "☀️",
+        "Sunny": "🌞",
+        "Cloud": "☁️",
+        "Cloudy": "⛅",
+        "Rain": "🌧️",
+        "Drizzle": "🌦️",
+        "Snow": "❄️",
+        "Thunder": "⛈️",
+        "Storm": "⛈️"
+    };
+
+    // Find matching emoji
+    let emoji = "🌤️"; // default
+    for (let condition in weatherEmoji) {
+        if (weatherMain.includes(condition)) {
+            emoji = weatherEmoji[condition];
+            break;
+        }
+    }
+
+    // Create emoji display as fallback
+    const emojiDisplay = document.createElement("div");
+    emojiDisplay.style.fontSize = "100px";
+    emojiDisplay.style.textAlign = "center";
+    emojiDisplay.textContent = emoji;
+    container.appendChild(emojiDisplay);
+
+    // Try to load Lottie animation (optional enhancement)
+    let animUrl;
+    if (weatherMain.includes("Clear") || weatherMain.includes("Sunny")) {
+        animUrl = "https://raw.githubusercontent.com/airbnb/lottie-web/master/examples/gatin/Gatin.json";
+    } else if (weatherMain.includes("Cloud")) {
+        animUrl = null; // Use emoji fallback for clouds
+    } else if (weatherMain.includes("Rain") || weatherMain.includes("Drizzle")) {
+        animUrl = null; // Use emoji fallback for rain
+    } else if (weatherMain.includes("Snow")) {
+        animUrl = null; // Use emoji fallback for snow
+    } else if (weatherMain.includes("Thunder") || weatherMain.includes("Storm")) {
+        animUrl = null; // Use emoji fallback for storm
+    }
+
+    // Only load Lottie if URL is available
+    if (animUrl) {
+        try {
+            lottie.loadAnimation({
+                container: container,
+                renderer: "svg",
+                loop: true,
+                autoplay: true,
+                path: animUrl,
+                rendererSettings: {
+                    preserveAspectRatio: 'xMidYMid slice'
+                }
+            });
+        } catch (error) {
+            console.warn("Failed to load Lottie animation, using emoji fallback", error);
+        }
+    }
 }
 
 // Apply dynamic background styling based on weather condition

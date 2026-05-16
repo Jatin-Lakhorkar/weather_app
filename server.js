@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const API_KEY = '97fcb3ddc91b390fe60d65a42e3674df';
+const API_KEY = process.env.OPENWEATHER_API_KEY;
 
 app.use(cors());
 app.use(express.static('.')); // Serve static files
@@ -35,7 +35,7 @@ app.get('/api/weather', async (req, res) => {
 
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`http://localhost:${PORT}`);
   });
 }
 
