@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -8,11 +7,7 @@ const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.OPENWEATHER_API_KEY;
 
 app.use(cors());
-app.use(express.static(path.join(__dirname))); // Serve static files from the current directory
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+app.use(express.static('.')); // Serve static files
 
 // Weather endpoint - fetch weather data from OpenWeatherMap API and proxy to client
 app.get('/api/weather', async (req, res) => {
