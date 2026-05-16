@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const API_KEY = process.env.OPENWEATHER_API_KEY;
+const API_KEY = "97fcb3ddc91b390fe60d65a42e3674df";
 
 app.use(cors());
 app.use(express.static('.')); // Serve static files
