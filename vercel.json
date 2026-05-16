@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm install",
+  "devCommand": "node server.js",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "envFrom": [".env.production"],
+  "framework": "express"
+}
