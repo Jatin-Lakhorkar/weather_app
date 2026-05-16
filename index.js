@@ -59,7 +59,7 @@ function hideSpinner() {
 }
 
 async function getWeatherData(city) {
-    const apiUrl = `/api/weather?city=${encodeURIComponent(city)}`;
+    const apiUrl = `/api/weather?city=${city}`;
     const response = await fetch(apiUrl);
     if (!response.ok) {
         throw new Error("Could not Fetch weather data")
