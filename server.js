@@ -33,9 +33,7 @@ app.get('/api/weather', async (req, res) => {
   }
 });
 
-// Vercel uses a serverless runtime and does not require manual port binding.
-// Locally, this still starts the app on PORT for development.
-if (!process.env.VERCEL) {
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
